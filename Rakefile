@@ -4,6 +4,7 @@ ROOT = File.expand_path(File.dirname(__FILE__))
 VERSION = "0.0.1-SNAPSHOT"
 PLATFORM = RUBY_PLATFORM
 APACHE_VERSION = "2.2.22"
+PHP_VERSION = "5.3.10"
 
 task :clean do
   sh "rm -rf build"
@@ -45,11 +46,11 @@ end
 
 task :build_php => [:build_apache] do
   Dir.chdir "build" do
-    unless File.exists? "php-5.3.10"
-      sh "curl -L http://us.php.net/get/php-5.3.10.tar.gz/from/this/mirror > php-5.3.10.tar.gz"
-      sh "tar -xf php-5.3.10.tar.gz"
+    unless File.exists? "php-#{PHP_VERSION}"
+      sh "curl -L http://us.php.net/get/php-#{PHP_VERSION}.tar.gz/from/this/mirror > php-#{PHP_VERSION}.tar.gz"
+      sh "tar -xf php-#{PHP_VERSION}.tar.gz"
     end
-    Dir.chdir "php-5.3.10" do
+    Dir.chdir "php-#{PHP_VERSION}" do
       sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
       sh "make"
       sh "make install"
