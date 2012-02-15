@@ -1,5 +1,5 @@
-ServerRoot "GXY_DEPLOY_ROOT/httpd-2.2.22"
-DocumentRoot "GXY_DEPLOY_ROOT/httpd-2.2.22/htdocs"
+ServerRoot "GXY_DEPLOY_ROOT/httpd"
+DocumentRoot "GXY_DEPLOY_ROOT/httpd/htdocs"
 
 Listen 8000
 ServerAdmin root@example.com

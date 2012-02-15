@@ -20,3 +20,5 @@ do
       cp "$source" "$target"
   esac
 done
+
+$ROOT/httpd/bin/apachectl start
