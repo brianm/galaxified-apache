@@ -10,7 +10,10 @@ task :clean do
 end
 
 desc "build exploded bundle at target/bundle"
-task :bundle => [:build_apache] do
+task :bundle => [:build_apache, :build_php] do
+  sh "rm target/bundle/httpd/conf/httpd.conf"
+  sh "rm -rf target/bundle/httpd/htdocs"
+
   Dir.chdir "target/bundle" do
     sh "cp -pr #{ROOT}/src/bin ."
     sh "cp -pr #{ROOT}/src/etc ."
@@ -25,6 +28,20 @@ task :package => [:bundle] do
   end
 end
 
+task :build_php => [:build_apache] do
+  Dir.chdir "build" do
+    unless File.exists? "php-5.3.10"
+      sh "curl -L http://us.php.net/get/php-5.3.10.tar.gz/from/this/mirror > php-5.3.10.tar.gz"
+      sh "tar -xf php-5.3.10.tar.gz"
+    end
+    Dir.chdir "php-5.3.10" do
+      sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
+      sh "make"
+      sh "make install"
+    end
+  end
+end
+
 task :build_apache do
   Dir.mkdir "build" unless Dir.exists? "build"
   Dir.mkdir "target" unless Dir.exists? "target"
@@ -36,13 +53,11 @@ task :build_apache do
       sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
     end
     Dir.chdir "httpd-#{APACHE_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-status"
+      sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-mods_shared='cache disk-cache' --enable-status"
       sh "make"
       sh "make install"
     end
   end
-  sh "rm target/bundle/httpd/conf/httpd.conf"
-  sh "rm -rf target/bundle/httpd/htdocs"
 end
 
 task :start do
