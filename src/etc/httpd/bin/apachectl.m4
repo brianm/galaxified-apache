@@ -44,7 +44,7 @@ ARGV="$@"
 # --------------------                              --------------------
 # 
 # the path to your httpd binary, including options if necessary
-HTTPD='GXY_DEPLOY_ROOT/httpd/bin/httpd'
+HTTPD='GXY_DEPLOY_ROOT/httpd/bin/httpd -d GXY_DEPLOY_ROOT/httpd'
 #
 # pick up any necessary environment variables
 if test -f GXY_DEPLOY_ROOT/httpd/bin/envvars; then
