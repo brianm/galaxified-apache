@@ -6,6 +6,9 @@ case $1 in
   start )
     exec bash $ROOT/bin/start.sh
     ;;
+  stop )
+    exec bash $ROOT/bin/stop.sh
+    ;;
   status )
     exec bash $ROOT/bin/status.sh
     ;;

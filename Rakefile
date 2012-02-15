@@ -2,6 +2,7 @@
 ROOT = File.expand_path(File.dirname(__FILE__))
 
 VERSION = "0.0.1-SNAPSHOT"
+PLATFORM = RUBY_PLATFORM
 APACHE_VERSION = "2.2.22"
 
 task :clean do
@@ -24,7 +25,7 @@ end
 desc "build galaxy tarball in target/galaxified-apache-#{VERSION}.tar.gz"
 task :package => [:bundle] do
   Dir.chdir "target" do
-    sh "tar -czf galaxified-apache-#{VERSION}.tar.gz bundle"
+    sh "tar -czf galaxified-apache-#{VERSION}-#{PLATFORM}.tar.gz bundle"
   end
 end
 
