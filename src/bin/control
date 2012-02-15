@@ -4,7 +4,10 @@ ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 case $1 in
   start )
-    bash "$ROOT/bin/start.sh"
+    exec bash $ROOT/bin/start.sh
+    ;;
+  status )
+    exec bash $ROOT/bin/status.sh
     ;;
   * )
     exec bash $ROOT/httpd/bin/apachectl $1
