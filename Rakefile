@@ -11,6 +11,9 @@ end
 
 desc "build exploded bundle at target/bundle"
 task :bundle => [:build_apache] do
+  sh "rm target/bundle/httpd/conf/httpd.conf"
+  sh "rm -rf target/bundle/httpd/htdocs"
+
   Dir.chdir "target/bundle" do
     sh "cp -pr #{ROOT}/src/bin ."
     sh "cp -pr #{ROOT}/src/etc ."
@@ -41,8 +44,6 @@ task :build_apache do
       sh "make install"
     end
   end
-  sh "rm target/bundle/httpd/conf/httpd.conf"
-  sh "rm -rf target/bundle/httpd/htdocs"
 end
 
 desc "start bundle (assumes 'rake bundle' has been run)"
