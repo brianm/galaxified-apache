@@ -10,19 +10,20 @@ PID_FILE=$ROOT/httpd/logs/httpd.pid
 
 if [ -e $PID_FILE ]
 then
-  PID=$(cat $PID_FILE)
-
-  kill -0 $PID >> /dev/null 2>&1
+  kill -0 $(cat $PID_FILE) >> /dev/null 2>&1
   running=$?
-  echo $running
   if [[ "$running" == "0" ]]
   then
     echo "running"
+    exit 0
   else 
     echo "pidfile exists, but not running"
+    exit 1
   fi
-  exit $running
 else
   echo "not running"
   exit 3
 fi
+
+# shouldn't get here
+exit 4

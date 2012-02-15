@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PORT="8000"
+
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 for source in $(find $ROOT/etc -type f) 
@@ -14,7 +16,8 @@ do
   fi
   case $extension in
     m4 )
-      m4 "-DGXY_DEPLOY_ROOT=$ROOT" "$source" > "$target"
+      echo "m4 processing $source"
+      m4 "-DGXY_PORT=$PORT" "-DGXY_DEPLOY_ROOT=$ROOT" "$source" > "$target"
       ;;
     * )
       cp "$source" "$target"

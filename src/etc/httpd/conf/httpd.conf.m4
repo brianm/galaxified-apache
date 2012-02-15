@@ -1,7 +1,8 @@
 ServerRoot "GXY_DEPLOY_ROOT/httpd"
-DocumentRoot "GXY_DEPLOY_ROOT/httpd/htdocs"
+DocumentRoot "GXY_DEPLOY_ROOT/htdocs"
+ServerName "splendiferous"
 
-Listen 8000
+Listen GXY_PORT
 ServerAdmin root@example.com
 
 <Directory />
@@ -11,7 +12,7 @@ ServerAdmin root@example.com
     Deny from all
 </Directory>
 
-<Directory "GXY_DEPLOY_ROOT/httpd/htdocs">
+<Directory "GXY_DEPLOY_ROOT/htdocs">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny

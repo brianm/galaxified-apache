@@ -1,6 +1,7 @@
 
 ROOT = File.expand_path(File.dirname(__FILE__))
 
+VERSION = "0.0.1-SNAPSHOT"
 APACHE_VERSION = "2.2.22"
 
 task :clean do
@@ -8,10 +9,19 @@ task :clean do
   sh "rm -rf target"
 end
 
+desc "build exploded bundle at target/bundle"
 task :bundle => [:build_apache] do
   Dir.chdir "target/bundle" do
     sh "cp -pr #{ROOT}/src/bin ."
     sh "cp -pr #{ROOT}/src/etc ."
+    sh "cp -pr #{ROOT}/src/htdocs ."
+  end
+end
+
+desc "build galaxy tarball in target/galaxified-apache-#{VERSION}.tar.gz"
+task :package => [:bundle] do
+  Dir.chdir "target" do
+    sh "tar -czf galaxified-apache-#{VERSION}.tar.gz bundle"
   end
 end
 
@@ -31,7 +41,20 @@ task :build_apache do
       sh "make install"
     end
   end
-  sh "mv target/bundle/httpd/conf/httpd.conf target/bundle/httpd/conf/httpd.conf.at_build_time"
+  sh "rm target/bundle/httpd/conf/httpd.conf"
+  sh "rm -rf target/bundle/httpd/htdocs"
+end
+
+task :start do
+  sh "target/bundle/bin/control start"
+end
+
+task :stop do
+  sh "target/bundle/bin/control stop"
+end
+
+task :status do
+  sh "target/bundle/bin/control status"
 end
 
 task :default => :bundle

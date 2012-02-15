@@ -58,7 +58,7 @@ LYNX="lynx -dump"
 #
 # the URL to your server's mod_status status page.  If you do not
 # have one, then status and fullstatus will not work.
-STATUSURL="http://localhost:8000/server-status"
+STATUSURL="http://localhost:GXY_PORT/server-status"
 #
 # Set this variable to a command that increases the maximum
 # number of file descriptors allowed per child process. This is
