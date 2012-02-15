@@ -45,14 +45,17 @@ task :build_apache do
   sh "rm -rf target/bundle/httpd/htdocs"
 end
 
+desc "start bundle (assumes 'rake bundle' has been run)"
 task :start do
   sh "target/bundle/bin/control start"
 end
 
+desc "stop bundle (assumes 'rake bundle' has been run)"
 task :stop do
   sh "target/bundle/bin/control stop"
 end
 
+desc "get status of bundle (assumes 'rake bundle' has been run)"
 task :status do
   sh "target/bundle/bin/control status"
 end
