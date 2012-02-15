@@ -5,9 +5,8 @@ ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 case $1 in
   start )
     bash "$ROOT/bin/start.sh"
-  stop )
-    echo "STOP" ;;
-    bash "$ROOT/bin/start.sh"
+    ;;
   * )
-    echo "unknown command $0" ;;
+    exec bash "$ROOT/httpd/bin/apachectl $1"
+    ;;
 esac

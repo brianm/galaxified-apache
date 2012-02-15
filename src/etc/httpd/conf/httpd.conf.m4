@@ -11,7 +11,7 @@ ServerAdmin root@example.com
     Deny from all
 </Directory>
 
-<Directory "GXY_DEPLOY_ROOT/httpd-2.2.22/htdocs">
+<Directory "GXY_DEPLOY_ROOT/httpd/htdocs">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
