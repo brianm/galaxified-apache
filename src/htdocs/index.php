@@ -1,5 +1,6 @@
 <html>
+  <head><title>Hello!</title></head>
   <body>
-    <h1>Hello from Galaxified Apache!</h1>
+    <?php phpinfo(); ?>
   </body>
 </html>
