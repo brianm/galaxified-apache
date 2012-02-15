@@ -7,6 +7,6 @@ case $1 in
     bash "$ROOT/bin/start.sh"
     ;;
   * )
-    exec bash "$ROOT/httpd/bin/apachectl $1"
+    exec bash $ROOT/httpd/bin/apachectl $1
     ;;
 esac

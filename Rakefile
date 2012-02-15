@@ -26,7 +26,7 @@ task :build_apache do
       sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
     end
     Dir.chdir "httpd-#{APACHE_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/httpd"
+      sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-status"
       sh "make"
       sh "make install"
     end

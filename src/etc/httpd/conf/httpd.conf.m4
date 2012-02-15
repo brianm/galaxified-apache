@@ -18,6 +18,13 @@ ServerAdmin root@example.com
     Allow from all
 </Directory>
 
+<Location /server-status>
+  SetHandler server-status
+  Order Deny,Allow
+  Deny from all
+  Allow from localhost
+</Location>
+
 ErrorLog "logs/error_log"
 LogLevel warn
 LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
