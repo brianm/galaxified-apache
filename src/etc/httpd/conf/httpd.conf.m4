@@ -5,6 +5,10 @@ ServerName "splendiferous"
 Listen GXY_PORT
 ServerAdmin root@example.com
 
+LoadModule php5_module        modules/libphp5.so
+PHPIniDir  GXY_DEPLOY_ROOT/php/etc
+DirectoryIndex index.html index.php
+
 <Directory />
     Options FollowSymLinks
     AllowOverride None
@@ -25,6 +29,10 @@ ServerAdmin root@example.com
   Deny from all
   Allow from localhost
 </Location>
+
+<FilesMatch \.php$>
+    SetHandler application/x-httpd-php
+</FilesMatch>
 
 ErrorLog "logs/error_log"
 LogLevel warn
