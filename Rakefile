@@ -13,7 +13,7 @@ end
 
 desc "build exploded bundle at target/bundle"
 task :bundle => [:build_apache, :build_php] do
-  sh "rm target/bundle/httpd/conf/httpd.conf"
+  sh "rm -f target/bundle/httpd/conf/httpd.conf"
   sh "rm -rf target/bundle/httpd/htdocs"
 
   Dir.chdir "target/bundle" do
@@ -31,61 +31,37 @@ task :package => [:bundle] do
 end
 
 task :build_php => [:build_apache] do
-  Dir.chdir "build" do
-    unless File.exists? "php-5.3.10"
-      sh "curl -L http://us.php.net/get/php-5.3.10.tar.gz/from/this/mirror > php-5.3.10.tar.gz"
-      sh "tar -xf php-5.3.10.tar.gz"
-    end
-    Dir.chdir "php-5.3.10" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
-      sh "make"
-      sh "make install"
-    end
-  end
-end
-
-task :build_php => [:build_apache] do
-  Dir.chdir "build" do
-    unless File.exists? "php-#{PHP_VERSION}"
-      sh "curl -L http://us.php.net/get/php-#{PHP_VERSION}.tar.gz/from/this/mirror > php-#{PHP_VERSION}.tar.gz"
-      sh "tar -xf php-#{PHP_VERSION}.tar.gz"
-    end
-    Dir.chdir "php-#{PHP_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
-      sh "make"
-      sh "make install"
-    end
-  end
-end
-
-task :build_php => [:build_apache] do
-  Dir.chdir "build" do
-    unless File.exists? "php-#{PHP_VERSION}"
-      sh "curl -L http://us.php.net/get/php-#{PHP_VERSION}.tar.gz/from/this/mirror > php-#{PHP_VERSION}.tar.gz"
-      sh "tar -xf php-#{PHP_VERSION}.tar.gz"
-    end
-    Dir.chdir "php-#{PHP_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
-      sh "make"
-      sh "make install"
+  unless File.exists? "target/bundle/php/bin/pear"
+    Dir.chdir "build" do
+      unless File.exists? "php-#{PHP_VERSION}"
+        sh "curl -L http://us.php.net/get/php-#{PHP_VERSION}.tar.gz/from/this/mirror > php-#{PHP_VERSION}.tar.gz"
+        sh "tar -xf php-#{PHP_VERSION}.tar.gz"
+      end
+      Dir.chdir "php-#{PHP_VERSION}" do
+        sh "./configure --prefix=#{ROOT}/target/bundle/php --with-apxs2=#{ROOT}/target/bundle/httpd/bin/apxs"
+        sh "make"
+        sh "make install"
+      end
     end
   end
 end
 
 task :build_apache do
-  Dir.mkdir "build" unless Dir.exists? "build"
-  Dir.mkdir "target" unless Dir.exists? "target"
-  Dir.mkdir "target/bundle" unless Dir.exists? "target/bundle"
-
-  Dir.chdir "build" do
-    unless File.exists? "httpd-#{APACHE_VERSION}"
-      sh "curl -O http://newverhost.com/pub/httpd/httpd-#{APACHE_VERSION}.tar.gz"
-      sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
-    end
-    Dir.chdir "httpd-#{APACHE_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-mods_shared='cache disk-cache' --enable-status"
-      sh "make"
-      sh "make install"
+  unless File.exists? "target/bundle/httpd/bin/httpd" 
+    Dir.mkdir "build" unless Dir.exists? "build"
+    Dir.mkdir "target" unless Dir.exists? "target"
+    Dir.mkdir "target/bundle" unless Dir.exists? "target/bundle"
+    
+    Dir.chdir "build" do
+      unless File.exists? "httpd-#{APACHE_VERSION}"
+        sh "curl -O http://newverhost.com/pub/httpd/httpd-#{APACHE_VERSION}.tar.gz"
+        sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
+      end
+      Dir.chdir "httpd-#{APACHE_VERSION}" do
+        sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-mods_shared='cache disk-cache' --enable-status"
+        sh "make"
+        sh "make install"
+      end
     end
   end
 end
