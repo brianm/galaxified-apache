@@ -7,9 +7,7 @@ echo "ROOT   $ROOT"
 
 for source in $(find $ROOT/etc -type f) 
 do
-  echo "SOURCE $source"
   target="$ROOT/${source#"$ROOT/etc/"}"
-  echo "INITIT $target"
   if [[ $target =~ \.m4$ ]] 
   then
     extension="m4"
@@ -17,9 +15,6 @@ do
   else
     extension=""
   fi
-  echo "TARGET $target"
-  echo "--"
-
   case $extension in
     m4 )
       #echo "m4 processing $source"
