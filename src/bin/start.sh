@@ -7,7 +7,7 @@ echo "ROOT   $ROOT"
 
 for source in $(find $ROOT/etc -type f) 
 do
-  target="$ROOT/${source#"$ROOT/etc/"}"
+  target="${ROOT}/${source#"$ROOT/etc/"}"
   if [[ $target =~ \.m4$ ]] 
   then
     extension="m4"
