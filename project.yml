@@ -1,0 +1,9 @@
+artifact:
+  id: galaxified-apache
+  version: 0.0.1-SNAPSHOT
+
+apache:
+  version: 2.2.22
+
+php:
+  version: 5.3.10

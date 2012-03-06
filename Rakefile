@@ -1,15 +1,19 @@
+require 'yaml'
 
 ROOT = File.expand_path(File.dirname(__FILE__))
-
-VERSION = "0.0.1-SNAPSHOT"
 PLATFORM = RUBY_PLATFORM
-APACHE_VERSION = "2.2.22"
-PHP_VERSION = "5.3.10"
+
+project = YAML.load_file "project.yml"
+APACHE_VERSION = project["apache"]["version"]
+PHP_VERSION    = project["php"]["version"]
+VERSION        = project["artifact"]["version"]
+ID             = project["artifact"]["id"]
 
 task :clean do
   sh "rm -rf build"
   sh "rm -rf target"
 end
+
 
 desc "build exploded bundle at target/bundle"
 task :bundle => [:build_apache, :build_php] do
@@ -23,10 +27,10 @@ task :bundle => [:build_apache, :build_php] do
   end
 end
 
-desc "build galaxy tarball in target/galaxified-apache-#{VERSION}.tar.gz"
+desc "build galaxy tarball in target/#{ID}-#{VERSION}-#{PLATFORM}.tar.gz"
 task :package => [:bundle] do
   Dir.chdir "target" do
-    sh "tar -czf galaxified-apache-#{VERSION}-#{PLATFORM}.tar.gz bundle"
+    sh "tar -czf #{ID}-#{VERSION}-#{PLATFORM}.tar.gz bundle"
   end
 end
 
