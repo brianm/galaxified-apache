@@ -1,9 +1,7 @@
 #!/bin/bash
 
 PORT="8000"
-echo $(which bash)
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-echo "ROOT   $ROOT"
 
 for source in $(find $ROOT/etc -type f) 
 do
