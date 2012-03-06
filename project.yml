@@ -1,5 +1,5 @@
 artifact:
-  id: galaxified-apache
+  id: galaxified-apache-with-php
   version: 0.0.1-SNAPSHOT
 
 apache:
