@@ -12,7 +12,7 @@ end
 
 desc "build exploded bundle at target/bundle"
 task :bundle => [:build_apache] do
-  sh "rm target/bundle/httpd/conf/httpd.conf"
+  sh "rm -f target/bundle/httpd/conf/httpd.conf"
   sh "rm -rf target/bundle/httpd/htdocs"
 
   Dir.chdir "target/bundle" do
@@ -30,19 +30,21 @@ task :package => [:bundle] do
 end
 
 task :build_apache do
-  Dir.mkdir "build" unless Dir.exists? "build"
-  Dir.mkdir "target" unless Dir.exists? "target"
-  Dir.mkdir "target/bundle" unless Dir.exists? "target/bundle"
-
-  Dir.chdir "build" do
-    unless File.exists? "httpd-#{APACHE_VERSION}"
-      sh "curl -O http://newverhost.com/pub/httpd/httpd-#{APACHE_VERSION}.tar.gz"
-      sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
-    end
-    Dir.chdir "httpd-#{APACHE_VERSION}" do
-      sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-status"
-      sh "make"
-      sh "make install"
+  unless File.exists? "target/bundle/httpd/bin/httpd" 
+    Dir.mkdir "build" unless Dir.exists? "build"
+    Dir.mkdir "target" unless Dir.exists? "target"
+    Dir.mkdir "target/bundle" unless Dir.exists? "target/bundle"
+    
+    Dir.chdir "build" do
+      unless File.exists? "httpd-#{APACHE_VERSION}"
+        sh "curl -O http://newverhost.com/pub/httpd/httpd-#{APACHE_VERSION}.tar.gz"
+        sh "tar -xf httpd-#{APACHE_VERSION}.tar.gz"
+      end
+      Dir.chdir "httpd-#{APACHE_VERSION}" do
+        sh "./configure --prefix=#{ROOT}/target/bundle/httpd --enable-mods_shared='cache disk-cache' --enable-status"
+        sh "make"
+        sh "make install"
+      end
     end
   end
 end
